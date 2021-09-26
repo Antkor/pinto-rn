@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "pinto-rn",
+    "slug": "pinto-rn",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "pinto-rn"
+}
