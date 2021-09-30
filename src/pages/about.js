@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 
-export default function Points({navigation}) {
+export default function About({navigation}) {
     return (
         <View >
-            <Text>Points Page</Text>
+            <Text>About Page</Text>
         </View>
     )
 }
