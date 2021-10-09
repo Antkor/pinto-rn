@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../pages/home';
 import Stores from '../pages/stores';
@@ -18,12 +18,6 @@ function AppDrawer() {
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
-        case 'RESTORE_TOKEN':
-          return {
-            ...prevState,
-            userToken: action.token,
-            isLoading: false,
-          };
         case 'SIGN_IN':
           return {
             ...prevState,
@@ -48,22 +42,9 @@ function AppDrawer() {
   const authContextValue = React.useMemo(
       () => ({
           signIn: async (data) => {
-          // In a production app, we need to send some data (usually username, password) to server and get a token
-          // We will also need to handle errors if sign in failed
-          // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
-          // In the example, we'll use a dummy token
-
           dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
           },
           signOut: () => dispatch({ type: 'SIGN_OUT' }),
-          signUp: async (data) => {
-          // In a production app, we need to send user data to server and get a token
-          // We will also need to handle errors if sign up failed
-          // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
-          // In the example, we'll use a dummy token
-
-          dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
-          },
       }),
       []
   );
@@ -71,7 +52,7 @@ function AppDrawer() {
   return (
     <AuthContext.Provider value={authContextValue}>
       { state.userToken !== null ?
-      <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <CustomDrawerContent {...props} />}>
         <Drawer.Screen name="My Pintos" component={Home} />
         <Drawer.Screen name="Stores" component={Stores} />
         <Drawer.Screen name="News" component={NewsStack} options={{headerShown: false}} />
@@ -107,6 +88,26 @@ function NewsStack() {
         component={NewsDetails}
       />
     </Stack.Navigator>
+  );
+}
+
+function Logout() {
+  const { signOut } = React.useContext(AuthContext);
+  return (
+    <Text onPress={ signOut() }>Logout</Text>
+  );
+}
+
+function CustomDrawerContent(props) {
+  const { signOut } = React.useContext(AuthContext);
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem
+        label="Logout"
+        onPress={() =>signOut()}
+      />
+    </DrawerContentScrollView>
   );
 }
 
