@@ -1,10 +1,25 @@
-import * as React from 'react';
-import { View, Text } from 'react-native';
+import * as React from "react";
+import { View, Text, Image } from "react-native";
+import { StyleSheet } from "react-native";
 
-export default function newsDetails({navigation}) {
-    return (
-        <View >
-            <Text>News Details Page</Text>
-        </View>
-    )
+export default function newsDetails({ route, navigation }) {
+  const { imgUrl, title, text } = route.params;
+  return (
+    <View>
+      <Image
+        style={styles.image}
+        source={require("../../assets/logo-hq.png")}
+        resizeMode="contain"
+      />
+      <Text>{title}</Text>
+      <Text>{text}</Text>
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  image: {
+    height: 100,
+    with: 100,
+  },
+});
