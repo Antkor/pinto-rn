@@ -20,6 +20,32 @@ export const AuthContext = React.createContext();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
+const DEFAULT_MENU_DRAWER_SCREEN_STYLE = {
+  drawerActiveBackgroundColor: "#fff",
+  drawerActiveTintColor: "#75C8CC",
+  drawerInactiveTintColor: "#000",
+  drawerItemStyle: {
+    borderRadius: 0,
+    borderBottomColor: "#ccc",
+    borderBottomWidth: 1,
+  },
+  drawerLabelStyle: {
+    fontFamily: "Yanone Kaffeesatz",
+    fontSize: 20,
+  },
+  
+  headerTitleStyle: {
+    fontFamily: "Yanone Kaffeesatz",
+    fontSize: 20,
+    color: '#fff'
+  },
+  headerStyle: {
+    backgroundColor: '#75C8CC'
+  },
+  headerTitleAlign: 'center',
+  headerTintColor:  '#fff'
+};
+
 function AppDrawer() {
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
@@ -66,18 +92,12 @@ function AppDrawer() {
             name="My Pintos"
             component={Home}
             options={{
-              drawerActiveBackgroundColor: "#fff",
-              drawerActiveTintColor: "#000",
-              drawerItemStyle: {
-                borderRadius: 0,
-                borderBottomColor: "#000",
-                borderBottomWidth: 1,
-              },
+              ...DEFAULT_MENU_DRAWER_SCREEN_STYLE,
               drawerIcon: ({ focused, size }) => (
                 <MaterialIcons
                   name="qr-code-2"
                   size={size}
-                  color={focused ? "#7cc" : "#ccc"}
+                  color={focused ? "#75C8CC" : "#000"}
                 />
               ),
             }}
@@ -86,11 +106,12 @@ function AppDrawer() {
             name="Stores"
             component={Stores}
             options={{
+              ...DEFAULT_MENU_DRAWER_SCREEN_STYLE,
               drawerIcon: ({ focused, size }) => (
                 <MaterialIcons
                   name="storefront"
                   size={size}
-                  color={focused ? "#7cc" : "#ccc"}
+                  color={focused ? "#75C8CC" : "#000"}
                 />
               ),
             }}
@@ -99,12 +120,13 @@ function AppDrawer() {
             name="News"
             component={NewsStack}
             options={{
+              ...DEFAULT_MENU_DRAWER_SCREEN_STYLE,
               headerShown: false,
               drawerIcon: ({ focused, size }) => (
                 <Ionicons
                   name="newspaper-outline"
                   size={size}
-                  color={focused ? "#7cc" : "#ccc"}
+                  color={focused ? "#75C8CC" : "#000"}
                 />
               ),
             }}
@@ -113,11 +135,12 @@ function AppDrawer() {
             name="About"
             component={About}
             options={{
+              ...DEFAULT_MENU_DRAWER_SCREEN_STYLE,
               drawerIcon: ({ focused, size }) => (
                 <MaterialIcons
                   name="info-outline"
                   size={size}
-                  color={focused ? "#7cc" : "#ccc"}
+                  color={focused ? "#75C8CC" : "#000"}
                 />
               ),
             }}
@@ -125,7 +148,7 @@ function AppDrawer() {
         </Drawer.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="About">
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Login" component={Login} options={{...DEFAULT_MENU_DRAWER_SCREEN_STYLE}}/>
         </Stack.Navigator>
       )}
     </AuthContext.Provider>
@@ -145,18 +168,15 @@ function NewsStack() {
               size={22}
               onPress={() => navigation.toggleDrawer()}
               style={{ margin: 16 }}
+              color="#fff"
             />
           ),
+            ...DEFAULT_MENU_DRAWER_SCREEN_STYLE,
         })}
       />
-      <Stack.Screen name="NewsDetails" component={NewsDetails} />
+      <Stack.Screen name="NewsDetails" component={NewsDetails} options={{...DEFAULT_MENU_DRAWER_SCREEN_STYLE}}/>
     </Stack.Navigator>
   );
-}
-
-function Logout() {
-  const { signOut } = React.useContext(AuthContext);
-  return <Text onPress={signOut()}>Logout</Text>;
 }
 
 function CustomDrawerContent(props) {
@@ -183,12 +203,17 @@ function CustomDrawerContent(props) {
       </SafeAreaView>
       <DrawerItem
         label="Logout"
+        labelStyle={{
+          fontFamily: "Yanone Kaffeesatz",
+          fontSize: 20,
+        }}
+        inactiveTintColor="#000"
         onPress={() => signOut()}
         icon={({ focused, size }) => (
           <MaterialIcons
             name="logout"
             size={size}
-            color={focused ? "#7cc" : "#ccc"}
+            color={focused ? "#75C8CC" : "#000"}
           />
         )}
       />
