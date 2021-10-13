@@ -67,16 +67,20 @@ function AppDrawer() {
     {
       isLoading: true,
       isSignout: false,
-      userToken: null,
+      userToken: localStorage.getItem('user'),
     }
   );
 
   const authContextValue = React.useMemo(
     () => ({
       signIn: async (data) => {
-        dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
+        localStorage.setItem('user', 'userToken');
+        dispatch({ type: "SIGN_IN", token: "userToken" });
       },
-      signOut: () => dispatch({ type: "SIGN_OUT" }),
+      signOut: () => {
+        localStorage.removeItem('user');
+        dispatch({ type: "SIGN_OUT" });
+      }
     }),
     []
   );

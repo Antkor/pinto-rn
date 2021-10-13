@@ -7,22 +7,16 @@ export default function newsList({ navigation }) {
     <View style={styles.container}>
       <FlatList style={{width: '100%'}}
         data={[
-          { key: "Devin" },
-          { key: "Dan" },
-          { key: "Dominic" },
-          { key: "Jackson" },
-          { key: "James" },
-          { key: "Joel" },
-          { key: "John" },
-          { key: "Jillian" },
-          { key: "Jimmy" },
-          { key: "Julie" },
+          { key: "News 1" },
+          { key: "News 2" },
+          { key: "News 3" },
+          { key: "News 4" },
         ]}
         renderItem={({ item }) => (
           <NewsListItem
             navigation={navigation}
             title={item.key}
-            text="Test text Test text Test text Test text"
+            text="Dummy Text"
           ></NewsListItem>
         )}
       />

@@ -9,7 +9,7 @@ export default function newsDetails({ route, navigation }) {
       <Image
         style={styles.image}
         source={require("../../assets/logo-hq.png")}
-        resizeMode="contain"
+        resizeMode="cover"
       />
       <Text>{title}</Text>
       <Text>{text}</Text>
@@ -19,7 +19,7 @@ export default function newsDetails({ route, navigation }) {
 
 const styles = StyleSheet.create({
   image: {
-    height: 100,
-    with: 100,
+    height: 200,
+    width: 200,
   },
 });
