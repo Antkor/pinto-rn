@@ -1,4 +1,4 @@
-export const stores = [
+export const storeData = [
   {
     name: "Pinto Store 1",
     address: "Nikolaou Plastira 2",

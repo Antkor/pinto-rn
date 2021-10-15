@@ -1,24 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, Linking, Image } from "react-native";
 import { StyleSheet } from "react-native";
-import * as Location from "expo-location";
 import { FontAwesome } from "@expo/vector-icons";
 
-import { stores } from "../data/storeData";
+import { storeData } from "../common/data/storeData";
+import { applyHaversine, getUserLocation } from "../common/utils";
 
 export default function Stores({ navigation }) {
-  const [location, setLocation] = useState(null);
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
+  const [location, setLocation] = useState();
+  const [stores, setStores] = useState(storeData);
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
+  useEffect(() => {
+    const fetchLocation = async () => {
+      const userLocaltion = await getUserLocation();
+      setLocation(userLocaltion);
+
+      const storeDataWithDistance = applyHaversine(
+        storeData,
+        userLocaltion.lat,
+        userLocaltion.long
+      );
+  
+      const sortedStoreData = storeDataWithDistance.sort(
+        (locationA, locationB) => {
+          return locationA.distance - locationB.distance;
+        }
+      );
+  
+      setStores([...sortedStoreData]);
+    };
+
+    fetchLocation();
   }, []);
 
   return (
@@ -31,10 +43,7 @@ export default function Stores({ navigation }) {
             name={item.name}
             address={item.address}
             phone={item.phone}
-            coordinates={{
-              lat: item.coordinates.lat,
-              long: item.coordinates.long,
-            }}
+            distance={item.distance}
           ></StoreListItem>
         )}
       />
@@ -42,7 +51,7 @@ export default function Stores({ navigation }) {
   );
 }
 
-function StoreListItem({ imgUrl, name, address, coordinates, phone }) {
+function StoreListItem({ imgUrl, name, address, distance, phone }) {
   return (
     <View style={styles.cardContainer}>
       <Image
@@ -55,7 +64,7 @@ function StoreListItem({ imgUrl, name, address, coordinates, phone }) {
           <Text style={styles.storeName}>{name}</Text>
           <Text style={styles.storeAddress}>{address}</Text>
           <Text style={styles.distance}>
-            Distance: {coordinates.lat}, {coordinates.long}
+            Distance: {distance}
           </Text>
         </View>
         <View style={styles.buttonContainer}>
@@ -99,8 +108,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 15,
     backgroundColor: "#fff",
-    display: 'flex',
-    flexDirection: 'row'
+    display: "flex",
+    flexDirection: "row",
   },
   infoContainer: {
     flex: 1,
@@ -108,21 +117,21 @@ const styles = StyleSheet.create({
   image: {
     height: 120,
     width: 120,
-    marginRight: 10
+    marginRight: 10,
   },
   storeName: {
-    fontFamily: 'Yanone Kaffeesatz',
+    fontFamily: "Yanone Kaffeesatz",
     fontSize: 22,
     marginBottom: 5,
   },
   storeAddress: {
-    fontFamily: 'Yanone Kaffeesatz',
+    fontFamily: "Yanone Kaffeesatz",
     fontSize: 20,
     color: "#777",
     marginBottom: 5,
   },
   distance: {
-    fontFamily: 'Yanone Kaffeesatz',
+    fontFamily: "Yanone Kaffeesatz",
     fontSize: 18,
     color: "#DF9882",
     marginBottom: 10,
