@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, Linking, Image } from "react-native";
+import { View, Text, FlatList, Linking, Image, Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
 import { storeData } from "../common/data/storeData";
 import { applyHaversine, getUserLocation } from "../common/utils";
+
+const width = Dimensions.get('window').width; 
 
 export default function Stores({ navigation }) {
   const [location, setLocation] = useState();
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#DF9882",
     justifyContent: "center",
-    width: 100,
     height: 35,
+    width: width * 0.28,
   },
 });

@@ -7,15 +7,15 @@ import * as Location from "expo-location";
 
 export async function getUserLocation() {
   let { status } = await Location.requestForegroundPermissionsAsync();
-  if (status !== "granted") {
-    setErrorMsg("Permission to access location was denied");
-    return;
-  }
-
   const defaultLocation = {
-    lat: 40.626562174421835,
-    long: 22.94857983889245,
+    lat: 40.626545,
+    long: 22.948604,
   };
+
+  if (status !== "granted") {
+    console.log("Permission to access location was denied");
+    return defaultLocation;
+  }
   
   let location = await Location.getCurrentPositionAsync({});
   return location.coords.latitude
