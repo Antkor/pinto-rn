@@ -98,7 +98,7 @@ function StoreListItem({ imgUrl, name, address, distance, phone }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#efefef",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   image: {
     height: 120,
     width: 120,
-    marginRight: 10,
+    marginRight: 15,
   },
   storeName: {
     fontFamily: "Yanone Kaffeesatz",
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#DF9882",
     justifyContent: "center",
-    height: 35,
+    height: 40,
     width: width * 0.28,
   },
 });
